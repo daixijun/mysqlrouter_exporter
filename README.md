@@ -1,6 +1,6 @@
 # MySQL Router Exporter
 
-[![Build Status](https://github.com/daixijun/mysqlrouter_exporter/workflows/release/badge.svg)](https://github.com/daixijun/mysqlrouter_exporter/actions?query=workflow%3release)
+[![Build Status](https://github.com/daixijun/mysqlrouter_exporter/workflows/goreleaser/badge.svg)](https://github.com/daixijun/mysqlrouter_exporter/actions?query=workflow%3goreleaser)
 
 MySQL Router Exporter， 基于 rluisr 大神 [mysqlrouter_exporter](https://github.com/rluisr/mysqlrouter_exporter) 的版本重写
 
