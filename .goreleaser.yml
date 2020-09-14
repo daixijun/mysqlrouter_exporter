@@ -1,0 +1,64 @@
+project_name: mysqlrouter_exporter
+env:
+  - GO111MODULE=on
+before:
+  hooks:
+    - go vet -race ./...
+    - go mod tidy -v
+builds:
+  - main: .
+    binary: mysqlrouter_exporter
+    # ldflags:
+    #   - -s -w
+    #   - -X main.version={{.Version}}
+    #   - -X main.commit={{.FullCommit}}
+    #   - -X main.buildDate={{.Date}}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm
+      - arm64
+      - 386
+    goarm:
+      - 6
+      - 7
+    ignore:
+      - goos: darwin
+        goarch: 386
+archives:
+  - name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
+    replacements:
+      darwin: darwin
+      linux: linux
+      windows: windows
+      386: i386
+      amd64: x86_64
+    format_overrides:
+      - goos: windows
+        format: zip
+dockers:
+  - binaries:
+      - mysqlrouter_exporter
+    goos: linux
+    goarch: amd64
+    image_templates:
+      - daixijun1990/mysqlrouter_exporter:latest
+      - daixijun1990/mysqlrouter_exporter:{{ .Tag }}
+      - daixijun1990/mysqlrouter_exporter:v{{ .Major }}
+      - daixijun1990/mysqlrouter_exporter:v{{ .Major }}.{{ .Minor }}
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+    extra_files:
+      - docker-entrypoint.sh
+release:
+  prerelease: auto
