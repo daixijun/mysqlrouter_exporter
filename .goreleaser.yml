@@ -62,3 +62,11 @@ dockers:
       - docker-entrypoint.sh
 release:
   prerelease: auto
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs"
+      - "^test"
+      - "^ci"
+      - "^build"
